@@ -123,15 +123,6 @@ u32 secure_tcp_ts_off(const struct net *net, __be32 saddr, __be32 daddr)
 	if (net->ipv4.sysctl_tcp_timestamps != 1)
 		return 0;
 
-	#ifdef CONFIG_PRODUCT_REALME_TRINKET
-	//Hao.Peng@PSW.CN.WiFi.Network.login.1854960, 2019/03/30,
-	//add for [BUGID],disable tcp random timestamp,some networks limit tcp syn before login
-	if (net->ipv4.sysctl_tcp_random_timestamp == 0)
-	{
-		return 0;
-	}
-	#endif /* CONFIG_PRODUCT_REALME_TRINKET */
-
 	ts_secret_init();
 	return siphash_2u32((__force u32)saddr, (__force u32)daddr,
 			    &ts_secret);
